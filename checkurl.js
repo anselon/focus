@@ -26,7 +26,7 @@ var tabUrlHandler = (function() {
   chrome.webRequest.onBeforeSendHeaders.addListener(
         function(details) {
          if (typeof details.url !=  'undefined' ){
-            var onWhiteList = tabUrlHandler.contains(details.url, details.originUrl, de);
+            var onWhiteList = tabUrlHandler.contains(details.url, details.originUrl,'fd');
             if (!onWhiteList) {
               return { cancel: true };
             }
