@@ -13,7 +13,8 @@
         font-size: 100%;
       }
       #status {
-     
+        /* avoid an excessively wide status text */
+        white-space: pre;
       }
     </style>
 
@@ -23,7 +24,6 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="popup.js"></script>
   </head>
   <body>
     <div id="status"></div>
