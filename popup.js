@@ -3,7 +3,7 @@ function resetPage() {
         chrome.browserAction.setIcon({
             path: 'locked.png'
         })
-        $('.status').text('Page Locked to: ' + localStorage.getItem('url'));
+        $('.status').text('Page locked to: ' + localStorage.getItem('url'));
         $(".create-whitelist").hide();
         $(".create-whitelist input").focus();
         $('.destroy-whitelist').show();
@@ -11,7 +11,7 @@ function resetPage() {
         chrome.browserAction.setIcon({
             path: 'unlocked.png'
         })
-        $(".status").text('Enter Password to Lock Current Page');
+        $(".status").text('Enter password to lock current page');
         $(".create-whitelist").show();
         $(".destroy-whitelist input").focus();
         $('.destroy-whitelist').hide();
