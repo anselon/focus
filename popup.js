@@ -1,62 +1,49 @@
-/*function whiteListCurrentTabUrl() {
-
-  var queryInfo = {
-    active: true,
-    currentWindow: true
-  };
-
-  chrome.tabs.query(queryInfo, function(tabs) {
-    var tab = tabs[0];
-    var url = tab.url;
-    chrome.storage.local.set({'url': url.toString()});
-    renderStatus('White Listed' + url);
-    chrome.extension.getBackgroundPage().console.log('foo');
-  });
-
-
-}
-
-function renderStatus(statusText) {
-  document.getElementById('status').textContent = statusText;
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-        whiteListCurrentTabUrl();
-         chrome.extension.getBackgroundPage().console.log('foo');
-
-
-});
-*/
-alert('thest');
-chrome.browserAction.onClicked.addListener(function(tab) {
-    
-    browser.browserAction.disable(tab.id);
-    var url = new URL(tab.url),
-        domain = url.hostname;
-  chrome.storage.local.set({
-    'url': domain
-  },function() {
-        if (chrome.extension.lastError) {
-          console.log('An error occurred: ' + chrome.extension.lastError.message);
-        }
-        console.log('success?');
+function resetPage() {
+    if (localStorage.getItem('pw')) {
+        chrome.browserAction.setIcon({
+            path: 'locked.png'
+        })
+        $('.status').text('Page Locked to: ' + localStorage.getItem('url'));
+        $(".create-whitelist").hide();
+        $(".create-whitelist input").focus();
+        $('.destroy-whitelist').show();
+    } else {
+        chrome.browserAction.setIcon({
+            path: 'unlocked.png'
+        })
+        $(".status").text('Enter Password to Lock Current Page');
+        $(".create-whitelist").show();
+        $(".destroy-whitelist input").focus();
+        $('.destroy-whitelist').hide();
     }
-  );
-  //renderStatus('White Listed' + domain);
-});
-/*
+}
+document.addEventListener('DOMContentLoaded', function() {
+    resetPage();
+    $('.create-whitelist').find('button').on('click', function() {
+        chrome.tabs.query({
+            currentWindow: true,
+            active: true
+        }, function(tabs) {
+            var url = new URL(tabs[0].url),
+                domain = url.hostname;
+            localStorage.setItem('pw', $('.create-whitelist input.pw')[0].value);
+            localStorage.setItem('url', domain);
+            $('.status').text('Page Locked to: ' + domain);
+            chrome.browserAction.setIcon({
+                path: 'locked.png'
+            });
+            window.close();
+        });
+    });
 
-
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-        for (key in changes) {
-          var storageChange = changes[key];
-          console.log('Storage key "%s" in namespace "%s" changed. ' +
-                      'Old value was "%s", new value is "%s".',
-                      key,
-                      namespace,
-                      storageChange.oldValue,
-                      storageChange.newValue);
+    $('.destroy-whitelist form').on('submit', function(e) {
+        var password = localStorage.getItem("pw");
+        if (password != undefined && password == $('.destroy-whitelist input.pw')[0].value) {
+            localStorage.clear();
+            window.close();
+        } else {
+            e.preventDefault();
+            $('.destroy-whitelist .error').text('incorrect password');
         }
-});*/
-
-// enable/disable browser action: chrome.browserAction.enable(integer tabId)
+    });
+});
