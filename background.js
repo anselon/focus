@@ -22,25 +22,26 @@
   }
 
 
-  var beforeSendHeadersHandler = {
+  var onBeforeRequestHandler = {
       func: function(details) {
           var headers = details.requestHeaders,
               referer;
           var whiteListURL = localStorage.getItem("url");
+          
           var onWhiteList = checkURL(whiteListURL, details.url, details.originUrl, referer);
-
           if (!onWhiteList) {
               return {
-                  cancel: true
+                redirectUrl: "http://"+whiteListURL
               };
           }
 
       },
       filter: {
-          urls: ["<all_urls>"]
+          urls: ["<all_urls>"],
+          types: ['main_frame']
       },
-      extra: ["blocking", "requestHeaders"]
+      extra: ["blocking"]
   };
-  chrome.webRequest.onBeforeSendHeaders.addListener(beforeSendHeadersHandler.func,
-      beforeSendHeadersHandler.filter,
-      beforeSendHeadersHandler.extra);
+  chrome.webRequest.onBeforeRequest.addListener(onBeforeRequestHandler.func,
+      onBeforeRequestHandler.filter,
+      onBeforeRequestHandler.extra);
