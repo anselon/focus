@@ -1,18 +1,16 @@
   if (localStorage.getItem('pw')) {
       chrome.browserAction.setIcon({
-          path: 'locked.png'
-      })
+        path: 'locked.png'
+      });
   }
 
-  function checkURL(whiteListURL, newURL, origin, referer) {
+  function checkURL(whiteListURL, newURL) {
 
       if (whiteListURL != undefined) {
           //check referer
-          var isExtenstion = origin && origin.indexOf('chrome-extension://') != -1 || false;
-          var containsWhiteListUrl = (newURL.length > whiteListURL.length) ? (newURL.indexOf(whiteListURL) != -1) : (whiteListURL.indexOf(newURL) != -1);
-          var refererIsWhiteListed = referer && (referer.length > whiteListURL.length) ? referer.indexOf(whiteListURL) != -1 : whiteListURL.indexOf(referer) != -1;
-          //|| refererIsWhiteListed
-          if (containsWhiteListUrl && !isExtenstion) {
+          var isExtenstion = newURL.indexOf('chrome-extension://') != -1;
+          //var containsWhiteListUrl = (newURL.length > whiteListURL.length) ? (newURL.indexOf(whiteListURL) != -1) : (whiteListURL.indexOf(newURL) != -1);
+          if (isExtenstion) {
               return true;
           } else {
               return false;
@@ -28,13 +26,12 @@
               referer;
           var whiteListURL = localStorage.getItem("url");
           
-          var onWhiteList = checkURL(whiteListURL, details.url, details.originUrl, referer);
-          if (!onWhiteList) {
+          var urlIsPermitted = checkURL(whiteListURL, details.url);
+          if (!urlIsPermitted) {
               return {
-                redirectUrl: "http://"+whiteListURL
+                redirectUrl: whiteListURL
               };
           }
-
       },
       filter: {
           urls: ["<all_urls>"],
@@ -42,6 +39,7 @@
       },
       extra: ["blocking"]
   };
+
   chrome.webRequest.onBeforeRequest.addListener(onBeforeRequestHandler.func,
       onBeforeRequestHandler.filter,
       onBeforeRequestHandler.extra);
