@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var password = localStorage.getItem('pw');
         if (password != undefined && password == $('.destroy-whitelist input.pw')[0].value) {
             localStorage.clear();
+            chrome.browserAction.setIcon({
+                path: 'unlocked.png'
+            });
             window.close();
         } else {
             e.preventDefault();
