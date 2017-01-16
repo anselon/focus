@@ -1,4 +1,4 @@
-  if (localStorage.getItem('pw')) {
+  if (localStorage.getItem('locked')==='true') {
       chrome.browserAction.setIcon({
         path: 'locked.png'
       });
@@ -25,12 +25,13 @@
           var headers = details.requestHeaders,
               referer;
           var whiteListURL = localStorage.getItem("url");
-          
-          var urlIsPermitted = checkURL(whiteListURL, details.url);
-          if (!urlIsPermitted) {
-              return {
-                redirectUrl: whiteListURL
-              };
+          if (localStorage.getItem('locked')==='true'){
+            var urlIsPermitted = checkURL(whiteListURL, details.url);
+            if (!urlIsPermitted) {
+                return {
+                  redirectUrl: whiteListURL
+                };
+            }
           }
       },
       filter: {

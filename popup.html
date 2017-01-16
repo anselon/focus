@@ -5,23 +5,40 @@
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
-        width:200px;
+        width:325px;
       }
-      .destroy-whitelist, .create-whitelist{
+      .destroy-whitelist, .create-whitelist, .lock-page{
         display: none;
-        width: 200px;
+        width: 325px;
       }
       input{
-        margin-right: 5px;
+        margin: 5px 5px;
+        padding: 8px;
+        font-size: 13px;
       }
       button{
         display: inline;
       }
+      .btn.lock, .btn.unlock{
+        background-color: lightblue;
+        border: 1px solid lightblue;
+        padding: 9px 15px;
+        border-radius: 3px;
+        font-size: 13px;
+      }
       .error{
         color: red;
-        font-size: 11px;
+        font-size: 12px;
         display: block;
-        padding-bottom: 5px;
+        padding: 5px;
+      }
+      .status{
+        padding:0px 5px;
+      }
+      .lock-page .btn.lock{
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
       }
     </style>
      <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
@@ -33,15 +50,23 @@
     <div class="create-whitelist">
       <form action="">
         <span class="error"></span>
-        <input type="password" name="pw" class="pw" type="password" placeholder="password">
-        <button class="btn" type="submit">Lock</button>
+        <div><input type="password" name="pw" class="pw" type="password" placeholder="password"></div>
+        <div>
+          <input type="password" name="pw" class="pw" type="password" placeholder="confirm password"> 
+          <button class="btn lock" type="submit">Lock</button>
+        </div>
+       
       </form>
+    </div>
+
+    <div class="lock-page">
+      <button class="btn lock">Lock Current Page</button>
     </div>
     <div class="destroy-whitelist">
       <form action="">
         <span class="error"></span>
         <input type="password" name="password" class="pw" placeholder="password">
-        <button class="btn" type="submit">Unlock</button>
+        <button class="btn unlock" type="submit">Unlock</button>
       </form>
     </div>
   </body>
