@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
 
-  "name": "Focus",
-  "description": "This extension locks your browser to the current page",
+  "name": "Focal",
+  "description": "This extension locks your browser to the current page.",
   "version": "1.0",
    "browser_action": {
     "default_icon": "unlocked.png",
     "default_popup":"popup.html"
   },
-  "permissions": ["activeTab","webRequest","tabs" ,"webRequestBlocking","storage","management",
+  "permissions": ["activeTab","webRequest","tabs" ,"webRequestBlocking","storage",
                  "https://*/","https://*/*" ,"http://*/","http://*/*"],
   "background": {
     "scripts": [ "background.js", "jquery-3.1.1.min.js"]

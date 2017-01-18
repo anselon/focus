@@ -48,11 +48,11 @@
     <p class="status"></p>
 
     <div class="create-whitelist">
-      <form action="">
+      <form >
         <span class="error"></span>
-        <div><input type="password" name="pw" class="pw" type="password" placeholder="password"></div>
+        <div><input type="password" name="pw" class="pw" type="password" placeholder="passcode" maxlength="4"></div>
         <div>
-          <input type="password" name="pw" class="pw" type="password" placeholder="confirm password"> 
+          <input type="password" name="pw" class="pw" type="password" placeholder="confirm passcode" maxlength="4"> 
           <button class="btn lock" type="submit">Lock</button>
         </div>
        
@@ -63,9 +63,9 @@
       <button class="btn lock">Lock Current Page</button>
     </div>
     <div class="destroy-whitelist">
-      <form action="">
+      <form>
         <span class="error"></span>
-        <input type="password" name="password" class="pw" placeholder="password">
+        <input type="password" name="password" class="pw" placeholder="password" maxlength="4">
         <button class="btn unlock" type="submit">Unlock</button>
       </form>
     </div>

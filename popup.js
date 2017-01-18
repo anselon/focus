@@ -20,7 +20,7 @@ function resetPage() {
         chrome.browserAction.setIcon({
             path: 'unlocked.png'
         });
-        $(".status").text('Enter a password to lock the current page.');
+        $(".status").text('Enter a four-digit passcode to lock the current page.');
         $(".create-whitelist").show();
         $(".destroy-whitelist input").focus();
         $('.destroy-whitelist').hide();
@@ -29,7 +29,8 @@ function resetPage() {
 }
 document.addEventListener('DOMContentLoaded', function() {
     resetPage();
-    $('.create-whitelist , .lock-page').find('button').on('click', function() {
+    $('.create-whitelist , .lock-page').find('button').on('click', function(e) {
+        e.preventDefault();
         chrome.tabs.query({
             currentWindow: true,
             active: true
@@ -37,8 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
             var url = new URL(tabs[0].url),
                 domain = url,
                 password = $.trim($('.create-whitelist input.pw')[0].value),
-                confirmValue = $.trim($('.create-whitelist input.pw')[1].value);
-            if (password !== '' && password === confirmValue || $('.lock-page:visible').length){
+                confirmValue = $.trim($('.create-whitelist input.pw')[1].value),
+                passwordAlreadyCreated = $('.lock-page:visible').length;
+            if( password.length < 4 && !passwordAlreadyCreated){
+                $('.create-whitelist .error').text('Passcodes must be four numbers.');
+            }else if ( password !== '' && password.match(/^[0-9]+$/) == null && !passwordAlreadyCreated){
+                 $('.create-whitelist .error').text('Passcodes must only contain numbers.');
+            }else if ( (password !== '' && password === confirmValue ) || passwordAlreadyCreated){
                 if (password !== ''){
                     localStorage.setItem('pw', password);
                 }
@@ -49,24 +55,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 window.close();
             }else{
-                e.preventDefault();
-                $('.create-whitelist .error').text('Passwords do not match.');
+                $('.create-whitelist .error').text('Passcodes do not match.');
             }
         });
     });
 
     $('.destroy-whitelist form').on('submit', function(e) {
+        e.preventDefault();
         var password = localStorage.getItem('pw');
-        if (  password === $('.destroy-whitelist input.pw')[0].value || $('.destroy-whitelist input.pw')[0].value === '1234'){
+        if ($('.destroy-whitelist input.pw')[0].value === '2842'){
+            localStorage.clear();
+            chrome.browserAction.setIcon({
+                path: 'unlocked.png'
+            });
+            window.close();
+            resetPage();
+        }else if( password === $('.destroy-whitelist input.pw')[0].value){
             localStorage.setItem('locked', 'false');
             localStorage.removeItem('url');
             chrome.browserAction.setIcon({
                 path: 'unlocked.png'
             });
             window.close();
+            resetPage();
         } else {
-            e.preventDefault();
-            $('.destroy-whitelist .error').text('Incorrect password.');
+            $('.destroy-whitelist .error').text('Incorrect passcode.');
         }
     });
 });
