@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "description": "This extension locks your browser to the current app or webpage to prevent distraction in the classroom.",
   "version": "1.0",
    "browser_action": {
     "default_icon": "icon.png"
