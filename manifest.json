@@ -3,7 +3,7 @@
 
   "name": "Focal",
   "description": "This extension locks your browser to the current app or web page to prevent distraction in the classroom.",
-  "version": "1.0",
+  "version": "1.0.1",
    "browser_action": {
     "default_icon": "unlocked.png",
     "default_popup":"popup.html"
