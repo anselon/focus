@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 chrome.browserAction.setIcon({
                     path: 'locked.png'
                 });
+                resetPage();
                 window.close();
             }else{
                 $('.create-whitelist .error').text('Passcodes do not match.');
@@ -68,16 +69,18 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.browserAction.setIcon({
                 path: 'unlocked.png'
             });
-            window.close();
             resetPage();
+            window.close();
+            
         }else if( password === $('.destroy-whitelist input.pw')[0].value){
             localStorage.setItem('locked', 'false');
             localStorage.removeItem('url');
             chrome.browserAction.setIcon({
                 path: 'unlocked.png'
             });
-            window.close();
             resetPage();
+            window.close();
+           
         } else {
             $('.destroy-whitelist .error').text('Incorrect passcode.');
         }
