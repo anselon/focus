@@ -42,19 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordAlreadyCreated = $('.lock-page:visible').length;
             if( password.length < 4 && !passwordAlreadyCreated){
                 $('.create-whitelist .error').text('Passcodes must be four numbers.');
-            }else if ( password !== '' && password.match(/^[0-9]+$/) == null && !passwordAlreadyCreated){
+            }else if ( password !== '' && password.match(/^[0-9]+$/) === null && !passwordAlreadyCreated){
                  $('.create-whitelist .error').text('Passcodes must only contain numbers.');
             }else if ( (password !== '' && password === confirmValue ) || passwordAlreadyCreated){
                 if (password !== ''){
                     localStorage.setItem('pw', password);
                 }
                 localStorage.setItem('url', domain);
-                localStorage.setItem('locked', 'true');
-                chrome.browserAction.setIcon({
-                    path: 'locked.png'
-                });
-                resetPage();
+                localStorage.setItem('locked', 'true'); 
                 window.close();
+                resetPage();
             }else{
                 $('.create-whitelist .error').text('Passcodes do not match.');
             }
@@ -66,20 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
         var password = localStorage.getItem('pw');
         if ($('.destroy-whitelist input.pw')[0].value === '2842'){
             localStorage.clear();
-            chrome.browserAction.setIcon({
-                path: 'unlocked.png'
-            });
-            resetPage();
             window.close();
+            resetPage();
             
         }else if( password === $('.destroy-whitelist input.pw')[0].value){
             localStorage.setItem('locked', 'false');
             localStorage.removeItem('url');
-            chrome.browserAction.setIcon({
-                path: 'unlocked.png'
-            });
-            resetPage();
             window.close();
+            resetPage();
            
         } else {
             $('.destroy-whitelist .error').text('Incorrect passcode.');
